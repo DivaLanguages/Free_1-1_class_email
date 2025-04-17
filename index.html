@@ -1,0 +1,256 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Your Class</title>
+  <style>
+    :root {
+      --primary-color: #4A90E2;
+      --hover-color: #357ABD;
+      --background-color: #f4f6f8;
+      --highlight-bg: #e0e3e7;
+      --card-bg: #ffffff;
+      --text-color: #333;
+      --shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    header {
+      width: 100%;
+      text-align: center;
+      padding: 40px 20px 30px;
+      background: linear-gradient(to right, #4A90E2, #50a6e6);
+      color: white;
+      position: relative;
+    }
+
+    header .free-button-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-and-social {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header img.profile {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 6px solid white;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      font-size: 32px;
+      margin: 25px 0 10px;
+    }
+
+    header p {
+      font-size: 18px;
+      margin: 0;
+      margin-bottom: 14px;
+    }
+
+    .free-classes-button {
+      background-color: white;
+      color: var(--primary-color);
+      font-weight: 600;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+    }
+
+    .free-classes-button:hover {
+      background-color: #e0ebf8;
+      transform: translateY(-1px);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px;
+      margin-top: 40px;
+      box-shadow: var(--shadow);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .custom-button {
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      font-size: 18px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: var(--shadow);
+    }
+
+    .custom-button:hover {
+      background-color: var(--hover-color);
+      transform: translateY(-2px);
+    }
+
+    .calendar-label {
+      margin-top: 40px;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .calendar-container {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .calendar-container iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+    }
+
+    .social-box {
+      margin-top: 18px;
+      padding: 10px 26px;
+      background-color: var(--highlight-bg);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      display: inline-flex;
+      justify-content: center;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .social-box a img {
+      width: 21px;
+      height: 21px;
+      transition: transform 0.2s;
+    }
+
+    .social-box a img:hover {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 24px;
+      }
+
+      .custom-button {
+        font-size: 16px;
+      }
+
+      .free-classes-button {
+        font-size: 12px;
+        padding: 6px 10px;
+      }
+
+      .calendar-container iframe {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <header>
+      <div class="free-button-wrapper">
+        <a href="https://divalanguages.github.io/" target="_blank" class="free-classes-button">Go to: Regular Classes</a>
+      </div>
+
+      <div class="profile-and-social">
+        <img src="bona.png" alt="Instructor Photo" class="profile">
+
+        <div class="social-box">
+          <a href="https://www.instagram.com/dv_lingo/" target="_blank">
+            <img src="instagram.png" alt="Instagram">
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61573026435396" target="_blank">
+            <img src="Facebook.png" alt="Facebook">
+          </a>
+          <a href="https://www.tiktok.com/@divss75?_t=ZS-8vT45GJRlqc&_r=1" target="_blank">
+            <img src="Tiktok.png" alt="TikTok">
+          </a>
+        </div>
+      </div>
+
+      <h1>Welcome to your language home</h1>
+      <p>-With each language, you live a new life-</p>
+    </header>
+
+    <div class="card">
+      <h2>Manage Your Free Classes</h2>
+      <div class="button-container">
+        <a class="custom-button" href="https://docs.google.com/forms/d/e/1FAIpQLScLrm8SZisdgM_gXMuKdeAI9g3Xaw_1GFTHnwbixJOatUQ0oQ/viewform?usp=dialog" target="_blank">
+          📘 Join a Free Class
+        </a>
+
+      </div>
+
+      <h2 class="calendar-label">Check The Next Free Classes</h2>
+
+      <div class="calendar-container">
+        <iframe 
+          src="https://calendar.google.com/calendar/embed?src=a42878222658e306f920a68b096d7cf29c51cb57e442a09aab1cbb32a206d7e3%40group.calendar.google.com&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&mode=AGENDA"
+          frameborder="0" 
+          scrolling="no">
+        </iframe>
+      </div>
+    </div>
+
+    <footer>
+      © Your English/Indonesian Coach · All rights reserved
+    </footer>
+
+  </div>
+</body>
+</html>
