@@ -79,17 +79,21 @@
 
         const table = document.getElementById("data-table");
 
+        const excludedColumns = ["City", "Email"];
+
         // Header
         const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
         headers.forEach(header => {
-          const th = document.createElement("th");
-          th.textContent = header;
-          headerRow.appendChild(th);
+          if (!excludedColumns.includes(header)) {
+            const th = document.createElement("th");
+            th.textContent = header;
+            headerRow.appendChild(th);
+          }
         });
-        const detailsTh = document.createElement("th");
-        detailsTh.textContent = "Details";
-        headerRow.appendChild(detailsTh);
+        const bookTh = document.createElement("th");
+        bookTh.textContent = "Book this slot";
+        headerRow.appendChild(bookTh);
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
@@ -99,22 +103,24 @@
           const tr = document.createElement("tr");
 
           headers.forEach(h => {
-            const td = document.createElement("td");
+            if (!excludedColumns.includes(h)) {
+              const td = document.createElement("td");
 
-            if (h === "Date Time") {
-              const city = row["City"];
-              td.textContent = convertCityTimeToLocal(city, row[h]);
-            } else {
-              td.textContent = row[h];
+              if (h === "Date Time") {
+                const city = row["City"];
+                td.textContent = convertCityTimeToLocal(city, row[h]);
+              } else {
+                td.textContent = row[h];
+              }
+
+              tr.appendChild(td);
             }
-
-            tr.appendChild(td);
           });
 
           // Button column
           const detailsTd = document.createElement("td");
           const button = document.createElement("button");
-          button.textContent = "View";
+          button.textContent = "Book this slot";
           button.onclick = () => {
             const params = new URLSearchParams(row).toString();
             window.open(`https://divalanguages.github.io/details_of_the_selected_user/?${params}`, "_blank");
@@ -130,4 +136,3 @@
 
 </body>
 </html>
-
