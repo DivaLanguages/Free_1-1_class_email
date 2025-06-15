@@ -8,6 +8,7 @@
     table { border-collapse: collapse; width: 100%; margin-top: 20px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background-color: #f2f2f2; }
+    button { padding: 6px 10px; font-size: 14px; cursor: pointer; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -24,76 +25,26 @@
     const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQNhmViYdXyCk71Y2zy1d7lL4ZfpvRlBCYBPE_JdmY6x_3xARktYWkmhn1batsBoU7YXogbvgRhkQRT/pub?gid=0&single=true&output=csv";
 
     const cityTimezones = {
-      "Abidjan": "Africa/Abidjan",
-      "Accra": "Africa/Accra",
-      "Adelaide": "Australia/Adelaide",
-      "Algiers": "Africa/Algiers",
-      "Amsterdam": "Europe/Amsterdam",
-      "Athens": "Europe/Athens",
-      "Auckland": "Pacific/Auckland",
-      "Baghdad": "Asia/Baghdad",
-      "Bangkok": "Asia/Bangkok",
-      "Barcelona": "Europe/Madrid",
-      "Beijing": "Asia/Shanghai",
-      "Beirut": "Asia/Beirut",
-      "Belgrade": "Europe/Belgrade",
-      "Berlin": "Europe/Berlin",
-      "Bogota": "America/Bogota",
-      "Brisbane": "Australia/Brisbane",
-      "Brussels": "Europe/Brussels",
-      "Bucharest": "Europe/Bucharest",
-      "Budapest": "Europe/Budapest",
-      "Buenos Aires": "America/Argentina/Buenos_Aires",
-      "Cairo": "Africa/Cairo",
-      "Cape Town": "Africa/Johannesburg",
-      "Caracas": "America/Caracas",
-      "Casablanca": "Africa/Casablanca",
-      "Chicago": "America/Chicago",
-      "Copenhagen": "Europe/Copenhagen",
-      "Delhi": "Asia/Kolkata",
-      "Dubai": "Asia/Dubai",
-      "Dublin": "Europe/Dublin",
-      "Hanoi": "Asia/Bangkok",
-      "Hong Kong": "Asia/Hong_Kong",
-      "Istanbul": "Europe/Istanbul",
-      "Jakarta": "Asia/Jakarta",
-      "Jerusalem": "Asia/Jerusalem",
-      "Johannesburg": "Africa/Johannesburg",
-      "Kiev": "Europe/Kyiv",
-      "Kuala Lumpur": "Asia/Kuala_Lumpur",
-      "Lima": "America/Lima",
-      "Lisbon": "Europe/Lisbon",
-      "London": "Europe/London",
-      "Los Angeles": "America/Los_Angeles",
-      "Madrid": "Europe/Madrid",
-      "Manila": "Asia/Manila",
-      "Mexico City": "America/Mexico_City",
-      "Moscow": "Europe/Moscow",
-      "Mumbai": "Asia/Kolkata",
-      "New York": "America/New_York",
-      "Oslo": "Europe/Oslo",
-      "Paris": "Europe/Paris",
-      "Perth": "Australia/Perth",
-      "Prague": "Europe/Prague",
-      "Rio de Janeiro": "America/Sao_Paulo",
-      "Rome": "Europe/Rome",
-      "San Francisco": "America/Los_Angeles",
-      "Santiago": "America/Santiago",
-      "Sao Paulo": "America/Sao_Paulo",
-      "Seoul": "Asia/Seoul",
-      "Shanghai": "Asia/Shanghai",
-      "Singapore": "Asia/Singapore",
-      "Stockholm": "Europe/Stockholm",
-      "Sydney": "Australia/Sydney",
-      "Taipei": "Asia/Taipei",
-      "Tehran": "Asia/Tehran",
-      "Tokyo": "Asia/Tokyo",
-      "Toronto": "America/Toronto",
-      "Vancouver": "America/Vancouver",
-      "Vienna": "Europe/Vienna",
-      "Warsaw": "Europe/Warsaw",
-      "Washington": "America/New_York",
-      "Zurich": "Europe/Zurich"
+      "Abidjan": "Africa/Abidjan", "Accra": "Africa/Accra", "Adelaide": "Australia/Adelaide", "Algiers": "Africa/Algiers",
+      "Amsterdam": "Europe/Amsterdam", "Athens": "Europe/Athens", "Auckland": "Pacific/Auckland", "Baghdad": "Asia/Baghdad",
+      "Bangkok": "Asia/Bangkok", "Barcelona": "Europe/Madrid", "Beijing": "Asia/Shanghai", "Beirut": "Asia/Beirut",
+      "Belgrade": "Europe/Belgrade", "Berlin": "Europe/Berlin", "Bogota": "America/Bogota", "Brisbane": "Australia/Brisbane",
+      "Brussels": "Europe/Brussels", "Bucharest": "Europe/Bucharest", "Budapest": "Europe/Budapest",
+      "Buenos Aires": "America/Argentina/Buenos_Aires", "Cairo": "Africa/Cairo", "Cape Town": "Africa/Johannesburg",
+      "Caracas": "America/Caracas", "Casablanca": "Africa/Casablanca", "Chicago": "America/Chicago",
+      "Copenhagen": "Europe/Copenhagen", "Delhi": "Asia/Kolkata", "Dubai": "Asia/Dubai", "Dublin": "Europe/Dublin",
+      "Hanoi": "Asia/Bangkok", "Hong Kong": "Asia/Hong_Kong", "Istanbul": "Europe/Istanbul", "Jakarta": "Asia/Jakarta",
+      "Jerusalem": "Asia/Jerusalem", "Johannesburg": "Africa/Johannesburg", "Kiev": "Europe/Kyiv",
+      "Kuala Lumpur": "Asia/Kuala_Lumpur", "Lima": "America/Lima", "Lisbon": "Europe/Lisbon", "London": "Europe/London",
+      "Los Angeles": "America/Los_Angeles", "Madrid": "Europe/Madrid", "Manila": "Asia/Manila",
+      "Mexico City": "America/Mexico_City", "Moscow": "Europe/Moscow", "Mumbai": "Asia/Kolkata",
+      "New York": "America/New_York", "Oslo": "Europe/Oslo", "Paris": "Europe/Paris", "Perth": "Australia/Perth",
+      "Prague": "Europe/Prague", "Rio de Janeiro": "America/Sao_Paulo", "Rome": "Europe/Rome",
+      "San Francisco": "America/Los_Angeles", "Santiago": "America/Santiago", "Sao Paulo": "America/Sao_Paulo",
+      "Seoul": "Asia/Seoul", "Shanghai": "Asia/Shanghai", "Singapore": "Asia/Singapore", "Stockholm": "Europe/Stockholm",
+      "Sydney": "Australia/Sydney", "Taipei": "Asia/Taipei", "Tehran": "Asia/Tehran", "Tokyo": "Asia/Tokyo",
+      "Toronto": "America/Toronto", "Vancouver": "America/Vancouver", "Vienna": "Europe/Vienna", "Warsaw": "Europe/Warsaw",
+      "Washington": "America/New_York", "Zurich": "Europe/Zurich"
     };
 
     function convertCityTimeToLocal(city, dateTimeStr) {
@@ -136,6 +87,9 @@
           th.textContent = header;
           headerRow.appendChild(th);
         });
+        const detailsTh = document.createElement("th");
+        detailsTh.textContent = "Details";
+        headerRow.appendChild(detailsTh);
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
@@ -145,21 +99,35 @@
           const tr = document.createElement("tr");
           headers.forEach(h => {
             const td = document.createElement("td");
-
             if (h === "Date Time") {
               const city = row["City"];
               td.textContent = convertCityTimeToLocal(city, row[h]);
             } else {
               td.textContent = row[h];
             }
-
             tr.appendChild(td);
           });
+
+          // Botón "View" con redirección al enlace externo
+          const detailsTd = document.createElement("td");
+          const button = document.createElement("button");
+          button.textContent = "View";
+          button.onclick = () => {
+            const params = new URLSearchParams(row).toString();
+            window.open(`https://divalanguages.github.io/details_of_the_selected_user/?${params}`, "_blank");
+          };
+          detailsTd.appendChild(button);
+          tr.appendChild(detailsTd);
+
           tbody.appendChild(tr);
         });
         table.appendChild(tbody);
       });
   </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
