@@ -9,12 +9,12 @@
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background-color: #f2f2f2; }
   </style>
-  <!-- Load Luxon -->
   <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
 
-  <h2>Talking Table (Times in Your Local Timezone)</h2>
+  <h2>Talking Table (Time converted to your timezone)</h2>
   <table id="data-table">
     <thead></thead>
     <tbody></tbody>
@@ -23,26 +23,23 @@
   <script>
     const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQNhmViYdXyCk71Y2zy1d7lL4ZfpvRlBCYBPE_JdmY6x_3xARktYWkmhn1batsBoU7YXogbvgRhkQRT/pub?gid=0&single=true&output=csv";
 
-    // Map cities to IANA time zones
     const cityTimezones = {
-      "Barcelona": "Europe/Madrid",
       "Buenos Aires": "America/Argentina/Buenos_Aires",
+      "Barcelona": "Europe/Madrid",
       "Jakarta": "Asia/Jakarta",
       "Sydney": "Australia/Sydney",
       "New York": "America/New_York",
       "London": "Europe/London",
       "Tokyo": "Asia/Tokyo",
-      "Delhi": "Asia/Kolkata"
-      // Add more as needed
+      "Delhi": "Asia/Kolkata",
     };
 
     function convertCityTimeToLocal(city, dateTimeStr) {
       const { DateTime } = luxon;
-      const tz = cityTimezones[city];
-      if (!tz) return "Unknown city";
+      const tz = cityTimezones[city.trim()];
+      if (!tz || !dateTimeStr) return dateTimeStr || "N/A";
 
-      // Parse date: "24/04/2025 01:00"
-      const [day, month, yearTime] = dateTimeStr.split('/');
+      const [day, month, yearTime] = dateTimeStr.trim().split('/');
       const [year, time] = yearTime.trim().split(' ');
       const [hour, minute] = time.split(':');
 
@@ -57,19 +54,20 @@
         { zone: tz }
       );
 
-      // Convert to the viewer's local timezone
       return dt.setZone(DateTime.local().zoneName).toLocaleString(DateTime.DATETIME_MED);
     }
 
     fetch(csvUrl)
-      .then(res => res.text())
+      .then(response => response.text())
       .then(csvText => {
-        const rows = csvText.trim().split("\n").map(r => r.split(","));
-        const headers = rows[0];
+        const parsed = Papa.parse(csvText, { header: true });
+        const rows = parsed.data;
+        const headers = parsed.meta.fields;
+
         const table = document.getElementById("data-table");
 
-        // Create table header
-        const thead = table.querySelector("thead");
+        // Header
+        const thead = document.createElement("thead");
         const headerRow = document.createElement("tr");
         headers.forEach(header => {
           const th = document.createElement("th");
@@ -77,25 +75,30 @@
           headerRow.appendChild(th);
         });
         thead.appendChild(headerRow);
+        table.appendChild(thead);
 
-        // Create table body
-        const tbody = table.querySelector("tbody");
-        rows.slice(1).forEach(row => {
+        // Body
+        const tbody = document.createElement("tbody");
+        rows.forEach(row => {
           const tr = document.createElement("tr");
-          row.forEach((cell, i) => {
+          headers.forEach(h => {
             const td = document.createElement("td");
-            if (headers[i] === "Date Time") {
-              const city = row[headers.indexOf("City")];
-              td.textContent = convertCityTimeToLocal(city, cell);
+
+            if (h === "Date Time") {
+              const city = row["City"];
+              td.textContent = convertCityTimeToLocal(city, row[h]);
             } else {
-              td.textContent = cell;
+              td.textContent = row[h];
             }
+
             tr.appendChild(td);
           });
           tbody.appendChild(tr);
         });
+        table.appendChild(tbody);
       });
   </script>
 
 </body>
 </html>
+
