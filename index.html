@@ -97,18 +97,21 @@
         const tbody = document.createElement("tbody");
         rows.forEach(row => {
           const tr = document.createElement("tr");
+
           headers.forEach(h => {
             const td = document.createElement("td");
+
             if (h === "Date Time") {
               const city = row["City"];
               td.textContent = convertCityTimeToLocal(city, row[h]);
             } else {
               td.textContent = row[h];
             }
+
             tr.appendChild(td);
           });
 
-          // Botón "View" con redirección al enlace externo
+          // Button column
           const detailsTd = document.createElement("td");
           const button = document.createElement("button");
           button.textContent = "View";
@@ -124,10 +127,6 @@
         table.appendChild(tbody);
       });
   </script>
-
-</body>
-</html>
-
 
 </body>
 </html>
