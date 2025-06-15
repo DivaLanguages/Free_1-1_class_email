@@ -1,291 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Manage Your Class</title>
+  <meta charset="UTF-8">
+  <title>Talking Table</title>
   <style>
-    :root {
-      --primary-color: #4A90E2;
-      --hover-color: #357ABD;
-      --background-color: #f4f6f8;
-      --highlight-bg: #e0e3e7;
-      --card-bg: #ffffff;
-      --text-color: #333;
-      --shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    }
-
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    .page-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-
-    header {
-      width: 100%;
-      text-align: center;
-      padding: 40px 20px 30px;
-      background: linear-gradient(to right, #4A90E2, #50a6e6);
-      color: white;
-      position: relative;
-    }
-
-    header .free-button-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .profile-and-social {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    header img.profile {
-      width: 160px;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 6px solid white;
-      box-shadow: var(--shadow);
-    }
-
-    header h1 {
-      font-size: 32px;
-      margin: 25px 0 10px;
-    }
-
-    header p {
-      font-size: 18px;
-      margin: 0;
-      margin-bottom: 14px;
-    }
-
-    .free-classes-button {
-      background-color: white;
-      color: var(--primary-color);
-      font-weight: 600;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s, transform 0.2s;
-      box-shadow: var(--shadow);
-      text-decoration: none;
-    }
-
-    .free-classes-button:hover {
-      background-color: #e0ebf8;
-      transform: translateY(-1px);
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 30px;
-      margin-top: 40px;
-      box-shadow: var(--shadow);
-      width: 90%;
-      max-width: 600px;
-      text-align: center;
-    }
-
-    .button-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .custom-button {
-      background-color: var(--primary-color);
-      color: white;
-      text-decoration: none;
-      padding: 15px 20px;
-      font-size: 18px;
-      font-weight: 500;
-      border-radius: 8px;
-      transition: background-color 0.3s, transform 0.2s;
-      box-shadow: var(--shadow);
-    }
-
-    .custom-button:hover {
-      background-color: var(--hover-color);
-      transform: translateY(-2px);
-    }
-
-    .calendar-label {
-      margin-top: 40px;
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--text-color);
-    }
-
-    .calendar-container {
-      margin-top: 20px;
-      width: 100%;
-    }
-
-    .calendar-container iframe {
-      width: 100%;
-      height: 300px;
-      border: none;
-      box-shadow: var(--shadow);
-      border-radius: 8px;
-    }
-
-    .email-input {
-      margin-top: 20px;
-      padding: 10px;
-      width: 100%;
-      max-width: 400px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      box-shadow: var(--shadow);
-    }
-
-    .name-input {
-      margin-top: 20px;
-      padding: 10px;
-      width: 100%;
-      max-width: 400px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      box-shadow: var(--shadow);
-    }
-
-    .readonly-input {
-      margin-top: 20px;
-      padding: 10px;
-      width: 100%;
-      max-width: 400px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      background-color: #e0e3e7;
-      color: #777;
-      box-shadow: var(--shadow);
-      pointer-events: none;
-    }
-
-    footer {
-      margin-top: auto;
+      font-family: Arial, sans-serif;
       padding: 20px;
-      font-size: 14px;
-      color: #777;
-      text-align: center;
     }
-
-    .social-box {
-      margin-top: 18px;
-      padding: 10px 26px;
-      background-color: var(--highlight-bg);
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      display: inline-flex;
-      justify-content: center;
-      gap: 14px;
-      align-items: center;
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
     }
-
-    .social-box a img {
-      width: 21px;
-      height: 21px;
-      transition: transform 0.2s;
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
     }
-
-    .social-box a img:hover {
-      transform: scale(1.1);
-    }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 24px;
-      }
-
-      .custom-button {
-        font-size: 16px;
-      }
-
-      .free-classes-button {
-        font-size: 12px;
-        padding: 6px 10px;
-      }
-
-      .calendar-container iframe {
-        height: 250px;
-      }
+    th {
+      background-color: #f2f2f2;
     }
   </style>
 </head>
 <body>
-  <div class="page-wrapper">
-    <header>
-      <div class="free-button-wrapper">
-        <a href="https://divalanguages.github.io/" target="_blank" class="free-classes-button">Go to: Regular Classes</a>
-      </div>
 
-      <div class="profile-and-social">
-        <img src="bona.png" alt="Instructor Photo" class="profile">
-        <div class="social-box">
-          <a href="https://www.instagram.com/dv_lingo/" target="_blank">
-            <img src="instagram.png" alt="Instagram">
-          </a>
-          <a href="https://www.facebook.com/profile.php?id=61573026435396" target="_blank">
-            <img src="Facebook.png" alt="Facebook">
-          </a>
-          <a href="https://www.tiktok.com/@divss75?_t=ZS-8vT45GJRlqc&_r=1" target="_blank">
-            <img src="Tiktok.png" alt="TikTok">
-          </a>
-        </div>
-      </div>
+  <h2>Talking Table (Times in Your Local Timezone)</h2>
+  <table id="data-table">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
 
-      <h1>Welcome to your language home</h1>
-      <p>-With each language, you live a new life-</p>
-    </header>
+  <script>
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQNhmViYdXyCk71Y2zy1d7lL4ZfpvRlBCYBPE_JdmY6x_3xARktYWkmhn1batsBoU7YXogbvgRhkQRT/pub?gid=0&single=true&output=csv";
 
-    <div class="card">
-      <h2>Test Your Knowledge</h2>
-      <form action="https://docs.google.com/forms/d/e/1FAIpQLSfBV4Os1IN9aIE54lRUoafBYNBjGDnlN_MkS2o62MPoNe3D0A/formResponse" method="POST" target="_blank">
-        <!-- Email Input -->
-        <label for="email">Enter your email:</label>
-        <input type="email" name="entry.2005620554" id="email" class="email-input" required placeholder="Your email address">
+    // Helper function to convert Indonesian time to local time
+    function convertToLocalTime(dateTimeStr) {
+      // Parse Indonesian time as UTC+7
+      const [day, month, yearAndTime] = dateTimeStr.split('/');
+      const [year, time] = yearAndTime.split(' ');
+      const isoStr = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${time}:00+07:00`;
+      const localDate = new Date(isoStr);
+      return localDate.toLocaleString(); // local time string
+    }
 
-        <!-- Name Input -->
-        <label for="name">Enter your name:</label>
-        <input type="text" name="entry.123456789" id="name" class="name-input" required placeholder="Your full name">
+    fetch(csvUrl)
+      .then(res => res.text())
+      .then(csvText => {
+        const rows = csvText.trim().split("\n").map(r => r.split(","));
+        const table = document.getElementById("data-table");
 
-        <!-- Non-editable Input -->
-        <label for="readonly">This cannot be modified:</label>
-        <input type="text" id="readonly" class="readonly-input" value="This cannot be modified" readonly>
+        // Build header
+        const headers = rows[0];
+        const thead = table.querySelector("thead");
+        const headerRow = document.createElement("tr");
+        headers.forEach(h => {
+          const th = document.createElement("th");
+          th.textContent = h;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
 
-        <!-- Submit Button -->
-        <div class="button-container">
-          <input type="submit" value="Submit Your Answers" class="custom-button">
-        </div>
-      </form>
-    </div>
+        // Build body
+        const tbody = table.querySelector("tbody");
+        rows.slice(1).forEach(row => {
+          const tr = document.createElement("tr");
+          row.forEach((cell, idx) => {
+            const td = document.createElement("td");
+            if (headers[idx] === "Date Time") {
+              td.textContent = convertToLocalTime(cell);
+            } else {
+              td.textContent = cell;
+            }
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      });
+  </script>
 
-    <footer>
-      © Your English/Indonesian Coach · All rights reserved
-    </footer>
-  </div>
 </body>
 </html>
