@@ -74,12 +74,15 @@
       .then(response => response.text())
       .then(csvText => {
         const parsed = Papa.parse(csvText, { header: true });
-        const rows = parsed.data;
+        const allRows = parsed.data;
         const headers = parsed.meta.fields;
 
         const table = document.getElementById("data-table");
 
-        const excludedColumns = ["City", "Email"];
+        const excludedColumns = ["City", "Email", "Booked?"];
+
+        // Filter out rows where "Booked?" === "Yes"
+        const rows = allRows.filter(row => (row["Booked?"] || "").trim().toLowerCase() !== "yes");
 
         // Header
         const thead = document.createElement("thead");
