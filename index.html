@@ -4,24 +4,13 @@
   <meta charset="UTF-8">
   <title>Talking Table</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
   </style>
+  <!-- Load Luxon -->
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
 </head>
 <body>
 
@@ -34,41 +23,70 @@
   <script>
     const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQNhmViYdXyCk71Y2zy1d7lL4ZfpvRlBCYBPE_JdmY6x_3xARktYWkmhn1batsBoU7YXogbvgRhkQRT/pub?gid=0&single=true&output=csv";
 
-    // Helper function to convert Indonesian time to local time
-    function convertToLocalTime(dateTimeStr) {
-      // Parse Indonesian time as UTC+7
-      const [day, month, yearAndTime] = dateTimeStr.split('/');
-      const [year, time] = yearAndTime.split(' ');
-      const isoStr = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${time}:00+07:00`;
-      const localDate = new Date(isoStr);
-      return localDate.toLocaleString(); // local time string
+    // Map cities to IANA time zones
+    const cityTimezones = {
+      "Barcelona": "Europe/Madrid",
+      "Buenos Aires": "America/Argentina/Buenos_Aires",
+      "Jakarta": "Asia/Jakarta",
+      "Sydney": "Australia/Sydney",
+      "New York": "America/New_York",
+      "London": "Europe/London",
+      "Tokyo": "Asia/Tokyo",
+      "Delhi": "Asia/Kolkata"
+      // Add more as needed
+    };
+
+    function convertCityTimeToLocal(city, dateTimeStr) {
+      const { DateTime } = luxon;
+      const tz = cityTimezones[city];
+      if (!tz) return "Unknown city";
+
+      // Parse date: "24/04/2025 01:00"
+      const [day, month, yearTime] = dateTimeStr.split('/');
+      const [year, time] = yearTime.trim().split(' ');
+      const [hour, minute] = time.split(':');
+
+      const dt = DateTime.fromObject(
+        {
+          year: +year,
+          month: +month,
+          day: +day,
+          hour: +hour,
+          minute: +minute
+        },
+        { zone: tz }
+      );
+
+      // Convert to the viewer's local timezone
+      return dt.setZone(DateTime.local().zoneName).toLocaleString(DateTime.DATETIME_MED);
     }
 
     fetch(csvUrl)
       .then(res => res.text())
       .then(csvText => {
         const rows = csvText.trim().split("\n").map(r => r.split(","));
+        const headers = rows[0];
         const table = document.getElementById("data-table");
 
-        // Build header
-        const headers = rows[0];
+        // Create table header
         const thead = table.querySelector("thead");
         const headerRow = document.createElement("tr");
-        headers.forEach(h => {
+        headers.forEach(header => {
           const th = document.createElement("th");
-          th.textContent = h;
+          th.textContent = header;
           headerRow.appendChild(th);
         });
         thead.appendChild(headerRow);
 
-        // Build body
+        // Create table body
         const tbody = table.querySelector("tbody");
         rows.slice(1).forEach(row => {
           const tr = document.createElement("tr");
-          row.forEach((cell, idx) => {
+          row.forEach((cell, i) => {
             const td = document.createElement("td");
-            if (headers[idx] === "Date Time") {
-              td.textContent = convertToLocalTime(cell);
+            if (headers[i] === "Date Time") {
+              const city = row[headers.indexOf("City")];
+              td.textContent = convertCityTimeToLocal(city, cell);
             } else {
               td.textContent = cell;
             }
